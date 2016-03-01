@@ -4,39 +4,104 @@ namespace Spatie\HtmlElement;
 
 class Html
 {
-	public static function el(string $element, $attributes = [], $content = '') : string
+    protected $tag;
+    protected $attributes;
+    protected $contents;
+
+	public static function el(...$arguments) : string
 	{
-		return (new Html())->element($element, $attributes, $content);
+		return (new Html(...$arguments))->render();
 	}
 
-	public function element(string $element, $attributes = [], $content = '') : string
+	protected function __construct(...$arguments)
 	{
-		list($element, $attributes, $content) = $this->parseArguments(func_get_args());
+        list($tag, $id, $classes) = $this->parseTagArguments($arguments[0]);
+        list($attributes, $contents) = $this->parseAttributeAndContentArguments($arguments);
 
-		$attributes = $this->renderAttributes($attributes);
+        $attributes = $this->mergeAttributesWithTagAttributes($attributes, $id, $classes);
 
-        $openingTag = empty($attributes) ?
-        	"<{$element}>" :
-        	"<{$element} {$attributes}>";
-
-        $closingTag = "</{$element}>";
-
-        return "{$openingTag}{$content}{$closingTag}";
+        $this->tag = $tag;
+        $this->attributes = $attributes;
+        $this->contents = $contents;
 	}
 
-	protected function renderAttributes(array $attributes) : string
+    protected function render() : string
     {
-        if (empty($attributes)) {
+        if ($this->isSelfClosingElement()) {
+            return $this->renderOpeningTag();
+        }
+
+        return "{$this->renderOpeningTag()}{$this->renderContents()}{$this->renderClosingTag()}";
+    }
+
+    protected function parseTagArguments(string $tag) : array
+    {
+        $parts = preg_split('/(?=[.#])/', $tag);
+
+        return array_reduce($parts, function ($parts, $part) {
+
+            switch ($part[0]) {
+                case '.':
+                    $parts[2][] = ltrim($part, '.');
+                    break;
+                case '#':
+                    $parts[1] = ltrim($part, '#');
+                    break;
+                default:
+                    $parts[0] = $part;
+                    break;
+            }
+
+            return $parts;
+
+        }, ['', '', []]);
+    }
+
+    protected function parseAttributeAndContentArguments(array $arguments) : array
+    {
+        if (isset($arguments[2])) {
+            return [$arguments[1], $arguments[2]];
+        }
+
+        if (isset($arguments[1])) {
+            return [[], $arguments[1]];
+        }
+
+        return [[], ''];
+    }
+
+    protected function mergeAttributesWithTagAttributes(array $attributes, string $id, array $classes)
+    {
+        if (!empty($id)) {
+            $attributes['id'] = $id;
+        }
+
+        if (!empty($classes)) {
+            $attributes['class'] = isset($attributes['class']) ?
+                implode(' ', $classes).' '.$attributes['class'] :
+                implode(' ', $classes);
+        }
+
+        return $attributes;
+    }
+
+    protected function renderAttributes() : string
+    {
+        if (empty($this->attributes)) {
             return '';
         }
 
         $attributeStrings = [];
 
-        foreach ($attributes as $attribute => $value) {
+        foreach ($this->attributes as $attribute => $value) {
 
-            if (empty($value)) {
-                $attributeStrings[] = $attribute;
+            if (is_int($attribute)) {
+                $attributeStrings[] = $value;
                 continue;
+            }
+
+            if (is_array($value)) {
+                $value = implode(' ', $value);
             }
 
             $attributeStrings[] = "{$attribute}=\"{$value}\"";
@@ -45,32 +110,31 @@ class Html
         return implode(' ', $attributeStrings);
     }
 
-	protected function parseArguments(array $arguments) : array
-	{
-		list($element, $elementId, $elementAttributes) = Tag::parse($arguments[0]);
-
-        list($attributes, $contents) = $this->parseAttributesAndContent($arguments);
-
-		return [
-			$element,
-			$arguments[1] ?? [],
-			$arguments[2] ?? ''
-		];
-	}
-
-    protected function parseAttributesAndContent(array $arguments) : array
+    protected function renderContents() : string
     {
-        // If the first argument isn't set, return empty values.
-        if (! isset($arguments[1])) {
-            return [[], ''];
+        if (is_array($this->contents)) {
+            return implode('', $this->contents);
         }
 
-        // If the first argument is a string, these are the contents and the attributes are empty.
-        if (is_string($arguments[1])) {
-            return [[], $arguments[1]];
-        }
+        return $this->contents;
+    }
 
-        // If there weren't any exceptions, return the default parameters.
-        return [$arguments[1], $arguments[2]];
+    protected function renderOpeningTag() : string
+    {
+        $attributes = $this->renderAttributes();
+
+        return empty($attributes) ?
+            "<{$this->tag}>" :
+            "<{$this->tag} {$attributes}>";
+    }
+
+    protected function renderClosingTag() : string
+    {
+        return "</{$this->tag}>";
+    }
+
+    protected function isSelfClosingElement() : bool
+    {
+        return false;
     }
 }
