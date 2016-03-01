@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\HtmlElement\Html;
+namespace Spatie\HtmlElement;
 
 class Html
 {
@@ -15,8 +15,8 @@ class Html
 
 		$attributes = $this->renderAttributes($attributes);
 
-        $openingTag = empty($attributes) ? 
-        	"<{$element}>" : 
+        $openingTag = empty($attributes) ?
+        	"<{$element}>" :
         	"<{$element} {$attributes}>";
 
         $closingTag = "</{$element}>";
@@ -47,15 +47,9 @@ class Html
 
 	protected function parseArguments(array $arguments) : array
 	{
-		$element = $arguments[0];
+		list($element, $elementId, $elementAttributes) = Tag::parse($arguments[0]);
 
-		if (! isset($arguments[1])) {
-			return [$element, [], null];
-		}
-
-		if (is_string($arguments[1])) {
-			return [$element, [], $arguments[1]];
-		}
+        list($attributes, $contents) = $this->parseAttributesAndContent($arguments);
 
 		return [
 			$element,
@@ -63,4 +57,20 @@ class Html
 			$arguments[2] ?? ''
 		];
 	}
+
+    protected function parseAttributesAndContent(array $arguments) : array
+    {
+        // If the first argument isn't set, return empty values.
+        if (! isset($arguments[1])) {
+            return [[], ''];
+        }
+
+        // If the first argument is a string, these are the contents and the attributes are empty.
+        if (is_string($arguments[1])) {
+            return [[], $arguments[1]];
+        }
+
+        // If there weren't any exceptions, return the default parameters.
+        return [$arguments[1], $arguments[2]];
+    }
 }
