@@ -4,23 +4,35 @@ namespace Spatie\HtmlElement;
 
 class Html
 {
+    /** @var string */
     protected $tag;
+
+    /** @var array */
     protected $attributes;
+
+    /** @var string|array */
     protected $contents;
 
-	public static function el(...$arguments) : string
+	public static function el($tag, $attributes = null, $content = null) : string
 	{
-		return (new Html(...$arguments))->render();
+		return (new Html(...func_get_args()))->render();
 	}
 
+    /**
+     * @see \Spatie\HtmlElement\Html::el
+     *
+     * @param mixed ...$arguments
+     */
 	protected function __construct(...$arguments)
 	{
         list($tag, $id, $classes) = $this->parseTagArguments($arguments[0]);
-        list($attributes, $contents) = $this->parseAttributeAndContentArguments($arguments);
-
-        $attributes = $this->mergeAttributesWithTagAttributes($attributes, $id, $classes);
 
         $this->tag = $tag;
+
+        list($attributes, $contents) = $this->parseAttributeAndContentArguments($arguments);
+
+        $attributes = $this->normalizeIdAndClasses($attributes, $id, $classes);
+
         $this->attributes = $attributes;
         $this->contents = $contents;
 	}
@@ -64,22 +76,26 @@ class Html
         }
 
         if (isset($arguments[1])) {
-            return [[], $arguments[1]];
+            return $this->isSelfClosingElement() ? [$arguments[1], ''] : [[], $arguments[1]];
         }
 
         return [[], ''];
     }
 
-    protected function mergeAttributesWithTagAttributes(array $attributes, string $id, array $classes)
+    protected function normalizeIdAndClasses(array $attributes, string $id, array $classes)
     {
         if (!empty($id)) {
             $attributes['id'] = $id;
         }
 
+        if (isset($attributes['class']) && is_string($attributes['class'])) {
+            $attributes['class'] = [$attributes['class']];
+        }
+
         if (!empty($classes)) {
             $attributes['class'] = isset($attributes['class']) ?
-                implode(' ', $classes).' '.$attributes['class'] :
-                implode(' ', $classes);
+                array_merge($classes, $attributes['class']) :
+                $classes;
         }
 
         return $attributes;
@@ -135,6 +151,10 @@ class Html
 
     protected function isSelfClosingElement() : bool
     {
-        return false;
+        return in_array(strtolower($this->tag), [
+            'area', 'base', 'br', 'col', 'embed', 'hr',
+            'img', 'input', 'keygen', 'link', 'menuitem',
+            'meta', 'param', 'source', 'track', 'wbr',
+        ]);
     }
 }

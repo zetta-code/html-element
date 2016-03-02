@@ -92,7 +92,19 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div class="container fluid"></div>',
-            Html::el('div.container', ['class' => 'fluid'], '')
+            Html::el('div.container', ['class' => ['fluid']], '')
         );
+    }
+
+    /** @test */
+    function it_renders_self_closing_tags_when_relevant()
+    {
+        $this->assertEquals('<img src="/background.jpg">', Html::el('img', ['src' => '/background.jpg']));
+    }
+
+    /** @test */
+    function it_recongizes_uppercase_self_closing_tags()
+    {
+        $this->assertEquals('<IMG src="/background.jpg">', Html::el('IMG', ['src' => '/background.jpg']));
     }
 }
