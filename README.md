@@ -109,7 +109,7 @@ el('img', ['src' => '/background.jpg']);
 
 The `el` function behaves differently depending on how many arguments are passed in.
 
-**`el(string $tag) : string`**
+#### `el(string $tag) : string`
 
 When one argument is passed, only a tag will be rendered.
 
@@ -120,7 +120,7 @@ el('p');
 <p></p>
 ```
 
-**`el(string $tag, string|array $contents) : string`**
+#### `el(string $tag, string|array $contents) : string`
 
 When two arguments are passed, these generally are a tag and it's contents.
 
@@ -145,7 +145,7 @@ el('ul', [el('li'), el('li')]);
 </ul>
 ```
 
-**`el(string $tag, array $attributes) : string`**
+#### `el(string $tag, array $attributes) : string`
 
 When two arguments are passed, and the tag is a self closing tag, the second argument contains attributes.
 
@@ -156,7 +156,7 @@ el('img', ['src' => '/background.jpg']);
 <img src="background.jpg">
 ```
 
-**`el(string $tag, array $attributes, string|array $contents) : string`**
+#### `el(string $tag, array $attributes, string|array $contents) : string`
 
 When three arguments are passed, the first will be the tag name, the second an array of attributes, and the third a string or an array of contents.
 
