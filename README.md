@@ -13,6 +13,13 @@
 
 I recommend adding an `el` function to your application to improve readability over the static method.
 
+```php
+function el(string $tag, $attributes = null, $content = null) : string
+{
+    return \Spatie\HtmlElement\Html::el(...func_get_args());
+}
+```
+
 A plain tag with text contents:
 
 ```php

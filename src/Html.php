@@ -13,7 +13,7 @@ class Html
     /** @var string|array */
     protected $contents;
 
-	public static function el($tag, $attributes = null, $content = null) : string
+	public static function el(string $tag, $attributes = null, $content = null) : string
 	{
 		return (new Html(...func_get_args()))->render();
 	}
