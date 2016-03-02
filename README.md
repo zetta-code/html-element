@@ -11,10 +11,12 @@
 
 ## Examples
 
+I recommend adding an `el` function to your application to improve readability over the static method.
+
 A plain tag with text contents:
 
 ```php
-Html::el('p', 'Hello world!');
+el('p', 'Hello world!');
 ```
 ```html
 <p>Hello world!</p>
@@ -23,7 +25,7 @@ Html::el('p', 'Hello world!');
 A tag with an ID:
 
 ```php
-Html::el('p', ['id' => 'introduction'], 'Hello world!');
+el('p', ['id' => 'introduction'], 'Hello world!');
 ```
 ```html
 <p id="introduction">Hello world!</p>
@@ -32,7 +34,7 @@ Html::el('p', ['id' => 'introduction'], 'Hello world!');
 A tag with an ID set emmet-style:
 
 ```php
-Html::el('p#introduction', 'Hello world!');
+el('p#introduction', 'Hello world!');
 ```
 ```html
 <p id="introduction">Hello world!</p>
@@ -41,7 +43,7 @@ Html::el('p#introduction', 'Hello world!');
 A tag with an ID and a class:
 
 ```php
-Html::el('p#introduction.red', 'Hello world!');
+el('p#introduction.red', 'Hello world!');
 ```
 ```html
 <p id="introduction" class="red">Hello world!</p>
@@ -50,7 +52,7 @@ Html::el('p#introduction.red', 'Hello world!');
 A more complex emmet-style abbreviation:
 
 ```php
-Html::el('div.container>div.row>div.col-md-6', 'Hello world!'));
+el('div.container>div.row>div.col-md-6', 'Hello world!'));
 ```
 ```html
 <div class="container">
@@ -65,8 +67,8 @@ Html::el('div.container>div.row>div.col-md-6', 'Hello world!'));
 Manually nested tags:
 
 ```php
-Html::el('div', ['class' => 'container'],
-    Html::el('nav', ['aria-role' => 'navigation'], '...')
+el('div', ['class' => 'container'],
+    el('nav', ['aria-role' => 'navigation'], '...')
 );
 ```
 ```html
@@ -78,7 +80,7 @@ Html::el('div', ['class' => 'container'],
 Multiple children:
 
 ```php
-Html::el('ul', [Html::el('li'), Html::el('li')]);
+el('ul', [el('li'), el('li')]);
 ```
 ```html
 <ul>
@@ -90,7 +92,7 @@ Html::el('ul', [Html::el('li'), Html::el('li')]);
 Self-closing tags:
 
 ```php
-Html::el('img', ['src' => '/background.jpg']);
+el('img', ['src' => '/background.jpg']);
 ```
 ```html
 <img src="background.jpg">
@@ -100,30 +102,30 @@ Html::el('img', ['src' => '/background.jpg']);
 
 The `el` function behaves differently depending on how many arguments are passed in.
 
-**`Html::el(string $tag) : string`**
+**`el(string $tag) : string`**
 
 When one argument is passed, only a tag will be rendered.
 
 ```php
-Html::el('p');
+el('p');
 ```
 ```html
 <p></p>
 ```
 
-**`Html::el(string $tag, string|array $contents) : string`**
+**`el(string $tag, string|array $contents) : string`**
 
 When two arguments are passed, these generally are a tag and it's contents.
 
 ```php
-Html::el('p', 'Hello world!');
+el('p', 'Hello world!');
 ```
 ```html
 <p>Hello world!</p>
 ```
 
 ```php
-Html::el('ul', [Html::el('li'), Html::el('li')]);
+el('ul', [el('li'), el('li')]);
 ```
 ```html
 <ul>
@@ -132,24 +134,24 @@ Html::el('ul', [Html::el('li'), Html::el('li')]);
 </ul>
 ```
 
-**`Html::el(string $tag, array $attributes) : string`**
+**`el(string $tag, array $attributes) : string`**
 
 When two arguments are passed, and the tag is a self closing tag, the second argument contains attributes.
 
 ```php
-Html::el('img', ['src' => '/background.jpg']);
+el('img', ['src' => '/background.jpg']);
 ```
 ```html
 <img src="background.jpg">
 ```
 
-**`Html::el(string $tag, array $attributes, string|array $contents) : string`**
+**`el(string $tag, array $attributes, string|array $contents) : string`**
 
 When three arguments are passed, the first will be the tag name, the second an array of attributes, and the third a string or an array of contents.
 
 ```php
-Html::el('div', ['class' => 'container'],
-    Html::el('nav', ['aria-role' => 'navigation'], '...')
+el('div', ['class' => 'container'],
+    el('nav', ['aria-role' => 'navigation'], '...')
 );
 ```
 ```html
