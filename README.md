@@ -124,12 +124,16 @@ el('p');
 
 When two arguments are passed, these generally are a tag and it's contents.
 
+String example:
+
 ```php
 el('p', 'Hello world!');
 ```
 ```html
 <p>Hello world!</p>
 ```
+
+Array example:
 
 ```php
 el('ul', [el('li'), el('li')]);
