@@ -120,6 +120,8 @@ el('p');
 <p></p>
 ```
 
+---
+
 #### `el(string $tag, string|array $contents) : string`
 
 When two arguments are passed, these generally are a tag and it's contents.
@@ -145,6 +147,8 @@ el('ul', [el('li'), el('li')]);
 </ul>
 ```
 
+---
+
 #### `el(string $tag, array $attributes) : string`
 
 When two arguments are passed, and the tag is a self closing tag, the second argument contains attributes.
@@ -155,6 +159,8 @@ el('img', ['src' => '/background.jpg']);
 ```html
 <img src="background.jpg">
 ```
+
+---
 
 #### `el(string $tag, array $attributes, string|array $contents) : string`
 
