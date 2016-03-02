@@ -4,7 +4,7 @@ namespace Spatie\HtmlElement\Test;
 
 use Spatie\HtmlElement\Html;
 
-class ExampleTest extends \PHPUnit_Framework_TestCase
+class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     /** @test */
     function it_parses_a_tag()
@@ -103,7 +103,7 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    function it_recongizes_uppercase_self_closing_tags()
+    function it_recognizes_uppercase_self_closing_tags()
     {
         $this->assertEquals('<IMG src="/background.jpg">', Html::el('IMG', ['src' => '/background.jpg']));
     }

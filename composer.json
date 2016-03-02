@@ -1,9 +1,9 @@
 {
     "name": "spatie/html-element",
-    "description": ":package_description",
+    "description": "Html rendering in php inspired by hyperscript",
     "keywords": [
         "spatie",
-        ":package_name"
+        "html-element"
     ],
     "homepage": "https://github.com/spatie/html-element",
     "license": "MIT",
