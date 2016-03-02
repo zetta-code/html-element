@@ -100,7 +100,7 @@ Html::el('img', ['src' => '/background.jpg']);
 
 The `el` function behaves differently depending on how many arguments are passed in.
 
-### `Html::el(string $tag) : string`
+**`Html::el(string $tag) : string`**
 
 When one argument is passed, only a tag will be rendered.
 
@@ -111,7 +111,7 @@ Html::el('p');
 <p></p>
 ```
 
-### `Html::el(string $tag, string|array $contents) : string`
+**`Html::el(string $tag, string|array $contents) : string`**
 
 When two arguments are passed, these generally are a tag and it's contents.
 
@@ -132,7 +132,7 @@ Html::el('ul', [Html::el('li'), Html::el('li')]);
 </ul>
 ```
 
-### `Html::el(string $tag, array $attributes) : string`
+**`Html::el(string $tag, array $attributes) : string`**
 
 When two arguments are passed, and the tag is a self closing tag, the second argument contains attributes.
 
@@ -143,7 +143,7 @@ Html::el('img', ['src' => '/background.jpg']);
 <img src="background.jpg">
 ```
 
-### `Html::el(string $tag, array $attributes, string|array $contents) : string`
+**`Html::el(string $tag, array $attributes, string|array $contents) : string`**
 
 When three arguments are passed, the first will be the tag name, the second an array of attributes, and the third a string or an array of contents.
 
