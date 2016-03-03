@@ -91,7 +91,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     function it_merges_classes_passed_in_through_the_tag_name_and_attributes()
     {
         $this->assertEquals(
-            '<div class="container fluid"></div>',
+            '<div class="fluid container"></div>',
             Html::el('div.container', ['class' => ['fluid']], '')
         );
     }
@@ -99,12 +99,12 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     /** @test */
     function it_renders_self_closing_tags_when_relevant()
     {
-        $this->assertEquals('<img src="/background.jpg">', Html::el('img', ['src' => '/background.jpg']));
+        $this->assertEquals('<img src="/background.jpg">', Html::el('img', ['src' => '/background.jpg'], []));
     }
 
     /** @test */
     function it_recognizes_uppercase_self_closing_tags()
     {
-        $this->assertEquals('<IMG src="/background.jpg">', Html::el('IMG', ['src' => '/background.jpg']));
+        $this->assertEquals('<IMG src="/background.jpg">', Html::el('IMG', ['src' => '/background.jpg'], []));
     }
 }
