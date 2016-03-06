@@ -10,9 +10,6 @@ class Attributes
     /** @var array */
     protected $classes = [];
 
-    /**
-     * @param array $attributes
-     */
     public function __construct(array $attributes = [])
     {
         foreach ($attributes as $attribute => $value) {
