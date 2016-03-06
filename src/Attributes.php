@@ -4,10 +4,8 @@ namespace Spatie\HtmlElement;
 
 class Attributes
 {
-    /** @var array */
     protected $attributes = [];
 
-    /** @var array */
     protected $classes = [];
 
     public function __construct(array $attributes = [])
@@ -89,7 +87,7 @@ class Attributes
 
         return implode(' ', $attributeStrings);
     }
-    
+
     public function __toString() : string
     {
         return $this->toString();
