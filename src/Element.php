@@ -52,7 +52,7 @@ class Element
         $this->attributes->addClass($classes);
     }
 
-    public function isSelfClosingElement() : bool
+    protected function isSelfClosingElement() : bool
     {
         return in_array(strtolower($this->tag), [
             'area', 'base', 'br', 'col', 'embed', 'hr',
