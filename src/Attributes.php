@@ -28,14 +28,7 @@ class Attributes
         }
     }
 
-    /**
-     * @param string $attribute
-     * @param string $value
-     *
-     * @return static
-     * @throws \Exception
-     */
-    public function setAttribute(string $attribute, string $value = '')
+    public function setAttribute(string $attribute, string $value = '') : self
     {
         if ($attribute === 'class') {
             $this->addClass($value);
@@ -47,12 +40,7 @@ class Attributes
         return $this;
     }
 
-    /**
-     * @param string|array $class
-     *
-     * @return static
-     */
-    public function addClass($class)
+    public function addClass($class) : self
     {
         if (! is_array($class)) {
             $class = [$class];
@@ -65,25 +53,16 @@ class Attributes
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty() : bool
     {
         return empty($this->attributes) && empty($this->classes);
     }
 
-    /**
-     * @return array
-     */
     public function toArray() : array
     {
         return array_merge($this->attributes, ['class' => implode(' ',$this->classes)]);
     }
 
-    /**
-     * @return string
-     */
     public function toString() : string
     {
         if ($this->isEmpty()) {
@@ -110,10 +89,7 @@ class Attributes
 
         return implode(' ', $attributeStrings);
     }
-
-    /**
-     * @return string
-     */
+    
     public function __toString() : string
     {
         return $this->toString();
