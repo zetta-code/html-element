@@ -99,7 +99,7 @@ el('ul', [el('li'), el('li')]);
 Self-closing tags:
 
 ```php
-el('img', ['src' => '/background.jpg']);
+el('img', ['src' => '/background.jpg'], '');
 ```
 ```html
 <img src="background.jpg">
@@ -145,19 +145,6 @@ el('ul', [el('li'), el('li')]);
   <li></li>
   <li></li>
 </ul>
-```
-
----
-
-#### `el(string $tag, array $attributes) : string`
-
-When two arguments are passed, and the tag is a self closing tag, the second argument contains attributes.
-
-```php
-el('img', ['src' => '/background.jpg']);
-```
-```html
-<img src="background.jpg">
 ```
 
 ---
