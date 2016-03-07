@@ -2,6 +2,8 @@
 
 namespace Spatie\HtmlElement;
 
+use Spatie\HtmlElement\Helpers\Arr;
+
 class Html
 {
     /** @var string */
@@ -36,20 +38,7 @@ class Html
 
     protected function parseAndSetTag(string $tag)
     {
-        $tag = $this->shiftTagAndRenderChildrenToContents($tag);
 
-        $attributes = preg_split('/(?=( \[[^]]+] ))/x', $tag);
-
-        $attributes = array_map(function ($attribute) {
-
-            if ($attribute[0] === '[') {
-                return $attribute;
-            }
-
-            return preg_split('/(?=( (\.) | (\#) ))/x', $attribute);
-        }, $attributes);
-
-        $attributes = $this->flatten($attributes);
 
         list($tag, $id, $classes, $attributes) = $this->parseTagAttributes($attributes);
 
@@ -64,56 +53,6 @@ class Html
         foreach ($attributes as $attribute => $value) {
             $this->attributes->setAttribute($attribute, $value);
         }
-    }
-
-    protected function flatten($input) : array
-    {
-        $output = [];
-        if (is_array($input)) {
-            foreach ($input as $element) {
-                $output = array_merge($output, $this->flatten($element));
-            }
-        }
-        else {
-            $output[] = $input;
-        }
-        return $output;
-    }
-
-    protected function shiftTagAndRenderChildrenToContents(string $tag) : string
-    {
-        $elements = preg_split('/\s*>\s*/', $tag, 2);
-
-        if (isset($elements[1])) {
-            $this->contents = [(new static($elements[1], [], $this->contents))->render()];
-        }
-
-        return $elements[0];
-    }
-
-    protected function parseTagAttributes(array $attributes) : array
-    {
-        return array_reduce($attributes, function ($parts, $part) {
-
-            switch ($part[0]) {
-                case '.':
-                    $parts[2][] = ltrim($part, '.');
-                    break;
-                case '#':
-                    $parts[1] = ltrim($part, '#');
-                    break;
-                case '[':
-                    $attribute = explode('=', trim($part, '[]'), 2);
-                    $parts[3][$attribute[0]] = $attribute[1];
-                    break;
-                default:
-                    $parts[0] = $part;
-                    break;
-            }
-
-            return $parts;
-
-        }, ['div', '', [], []]);
     }
 
     protected function render() : string
