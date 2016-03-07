@@ -34,7 +34,7 @@ class Html
         $this->parseAndSetTag($tag);
     }
 
-    protected function parseAndSetTag($tag)
+    protected function parseAndSetTag(string $tag)
     {
         $tag = $this->shiftTagAndRenderChildrenToContents($tag);
 
@@ -83,6 +83,15 @@ class Html
         }, ['div', '', []]);
     }
 
+    protected function render() : string
+    {
+        if ($this->isSelfClosingElement()) {
+            return $this->renderOpeningTag();
+        }
+
+        return "{$this->renderOpeningTag()}{$this->renderContents()}{$this->renderClosingTag()}";
+    }
+
     protected function isSelfClosingElement() : bool
     {
         return in_array(strtolower($this->tag), [
@@ -107,14 +116,5 @@ class Html
     protected function renderClosingTag() : string
     {
         return "</{$this->tag}>";
-    }
-
-    protected function render() : string
-    {
-        if ($this->isSelfClosingElement()) {
-            return $this->renderOpeningTag();
-        }
-
-        return "{$this->renderOpeningTag()}{$this->renderContents()}{$this->renderClosingTag()}";
     }
 }
