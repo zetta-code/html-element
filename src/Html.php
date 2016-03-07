@@ -53,7 +53,7 @@ class Html
 
     protected function shiftTagAndRenderChildrenToContents(string $tag) : string
     {
-        $elements = explode('>', $tag, 2);
+        $elements = preg_split('/\s*>\s*/', $tag, 2);
 
         if (isset($elements[1])) {
             $this->contents = [(new static($elements[1], [], $this->contents))->render()];

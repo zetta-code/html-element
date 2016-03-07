@@ -116,4 +116,13 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             Html::el('div.container>div.row')
         );
     }
+
+    /** @test */
+    function it_allows_spaces_around_child_separators()
+    {
+        $this->assertEquals(
+            '<div class="container"><div class="row"></div></div>',
+            Html::el('div.container > div.row')
+        );
+    }
 }
