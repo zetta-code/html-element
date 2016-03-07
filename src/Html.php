@@ -38,9 +38,33 @@ class Html
     {
         $tag = $this->shiftTagAndRenderChildrenToContents($tag);
 
-        $parts = preg_split('/(?=[.#])/', $tag);
+        $attributes = preg_split('/(?=[.#])/', $tag);
 
-        list($tag, $id, $classes) = array_reduce($parts, function ($parts, $part) {
+        list($tag, $id, $classes) = $this->parseTagAttributes($attributes);
+
+        $this->tag = $tag;
+
+        if (! empty($id)) {
+            $this->attributes->setAttribute('id', $id);
+        }
+
+        $this->attributes->addClass($classes);
+    }
+
+    protected function shiftTagAndRenderChildrenToContents(string $tag) : string
+    {
+        $elements = explode('>', $tag, 2);
+
+        if (isset($elements[1])) {
+            $this->contents = [(new static($elements[1], [], $this->contents))->render()];
+        }
+
+        return $elements[0];
+    }
+
+    protected function parseTagAttributes(array $attributes) : array
+    {
+        return array_reduce($attributes, function ($parts, $part) {
 
             switch ($part[0]) {
                 case '.':
@@ -57,25 +81,6 @@ class Html
             return $parts;
 
         }, ['div', '', []]);
-
-        $this->tag = $tag;
-
-        if (! empty($id)) {
-            $this->attributes->setAttribute('id', $id);
-        }
-
-        $this->attributes->addClass($classes);
-    }
-
-    protected function shiftTagAndRenderChildrenToContents($tag)
-    {
-        $elements = explode('>', $tag, 2);
-
-        if (isset($elements[1])) {
-            $this->contents = [(new static($elements[1], [], $this->contents))->render()];
-        }
-
-        return $elements[0];
     }
 
     protected function isSelfClosingElement() : bool
