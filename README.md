@@ -1,17 +1,17 @@
 # HtmlElement
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/:package_name.svg?style=flat-square)](https://packagist.org/packages/spatie/:package_name)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/html-element.svg?style=flat-square)](https://packagist.org/packages/spatie/html-element)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/spatie/:package_name/master.svg?style=flat-square)](https://travis-ci.org/spatie/:package_name)
+[![Build Status](https://img.shields.io/travis/spatie/html-element/master.svg?style=flat-square)](https://travis-ci.org/spatie/html-element)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/xxxxxxxxx.svg?style=flat-square)](https://insight.sensiolabs.com/projects/xxxxxxxxx)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/:package_name.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/:package_name)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/:package_name.svg?style=flat-square)](https://packagist.org/packages/spatie/:package_name)
+[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/html-element.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/html-element)
+[![Total Downloads](https://img.shields.io/packagist/dt/spatie/html-element.svg?style=flat-square)](https://packagist.org/packages/spatie/html-element)
 
 > WORK IN PROGRESS
 
 HtmlElement is a small library to make dynamic HTML rendering more managable. The syntax is based on [Hyperscript](https://github.com/dominictarr/hyperscript), and adds some [Emmet](http://emmet.io/)-style syntactic sugar too.
 
-Elements are rendered using the `Html::el` method (which I recommend calling via a function).
+Elements are rendered using the static `Html::el` method (which I recommend wrapping in a plain function instead for readability).
 
 ```php
 el('div.container > div.row > div.col-md-6',
@@ -41,6 +41,15 @@ function el(string $tag, $attributes = null, $content = null) : string
 
 
 ## Syntax Examples
+
+An empty tag:
+
+```php
+el('div');
+```
+```html
+<div></div>
+```
 
 A plain tag with text contents:
 
