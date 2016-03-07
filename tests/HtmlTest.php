@@ -107,4 +107,13 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('<IMG src="/background.jpg">', Html::el('IMG', ['src' => '/background.jpg'], []));
     }
+
+    /** @test */
+    function it_renders_emmet_style_nested_tags()
+    {
+        $this->assertEquals(
+            '<div class="container"><div class="row"></div></div>',
+            Html::el('div.container>div.row')
+        );
+    }
 }
