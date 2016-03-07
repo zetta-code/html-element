@@ -36,13 +36,9 @@ class Html
 
     protected function parseAndSetTag($tag)
     {
-        $elements = explode('>', $tag, 2);
+        $tag = $this->shiftTagAndRenderChildrenToContents($tag);
 
-        if (isset($elements[1])) {
-            $this->contents = [(new static($elements[1], [], $this->contents))->render()];
-        }
-
-        $parts = preg_split('/(?=[.#])/', $elements[0]);
+        $parts = preg_split('/(?=[.#])/', $tag);
 
         list($tag, $id, $classes) = array_reduce($parts, function ($parts, $part) {
 
@@ -69,6 +65,17 @@ class Html
         }
 
         $this->attributes->addClass($classes);
+    }
+
+    protected function shiftTagAndRenderChildrenToContents($tag)
+    {
+        $elements = explode('>', $tag, 2);
+
+        if (isset($elements[1])) {
+            $this->contents = [(new static($elements[1], [], $this->contents))->render()];
+        }
+
+        return $elements[0];
     }
 
     protected function isSelfClosingElement() : bool
