@@ -9,7 +9,26 @@
 
 > WORK IN PROGRESS
 
-## Examples
+HtmlElement is a small library to make dynamic HTML rendering more managable. The syntax is based on [Hyperscript](https://github.com/dominictarr/hyperscript), and adds some [Emmet](http://emmet.io/)-style syntactic sugar too.
+
+Elements are rendered using the `Html::el` method (which I recommend calling via a function).
+
+```php
+el('div.container > div.row > div.col-md-6',
+    el('a', ['href' => '#'], 'Hello world!')
+);
+```
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <a href="#">Hello world!</a>
+    </div>
+  </div>
+</div>
+```
+
+## Usage
 
 I recommend adding an `el` function to your application to improve readability over the static method.
 
@@ -19,6 +38,9 @@ function el(string $tag, $attributes = null, $content = null) : string
     return \Spatie\HtmlElement\Html::el(...func_get_args());
 }
 ```
+
+
+## Syntax Examples
 
 A plain tag with text contents:
 
@@ -59,7 +81,7 @@ el('p#introduction.red', 'Hello world!');
 A more complex emmet-style abbreviation:
 
 ```php
-el('div.container>div.row>div.col-md-6', 'Hello world!'));
+el('div.container > div.row > div.col-md-6', 'Hello world!'));
 ```
 ```html
 <div class="container">
