@@ -61,6 +61,15 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    function it_parses_an_attribute_passed_in_through_the_tag_name()
+    {
+        $this->assertEquals(
+            '<a href="#">Hello world</a>',
+            Html::el('a[href=#]', 'Hello world')
+        );
+    }
+
+    /** @test */
     function it_only_parses_one_id_passed_in_through_the_tag_name()
     {
         $this->assertEquals(

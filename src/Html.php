@@ -38,9 +38,20 @@ class Html
     {
         $tag = $this->shiftTagAndRenderChildrenToContents($tag);
 
-        $attributes = preg_split('/(?=[.#])/', $tag);
+        $attributes = preg_split('/(?=( \[[^]]+] ))/x', $tag);
 
-        list($tag, $id, $classes) = $this->parseTagAttributes($attributes);
+        $attributes = array_map(function ($attribute) {
+
+            if ($attribute[0] === '[') {
+                return $attribute;
+            }
+
+            return preg_split('/(?=( (\.) | (\#) ))/x', $attribute);
+        }, $attributes);
+
+        $attributes = $this->flatten($attributes);
+
+        list($tag, $id, $classes, $attributes) = $this->parseTagAttributes($attributes);
 
         $this->tag = $tag;
 
@@ -49,6 +60,24 @@ class Html
         }
 
         $this->attributes->addClass($classes);
+
+        foreach ($attributes as $attribute => $value) {
+            $this->attributes->setAttribute($attribute, $value);
+        }
+    }
+
+    protected function flatten($input) : array
+    {
+        $output = [];
+        if (is_array($input)) {
+            foreach ($input as $element) {
+                $output = array_merge($output, $this->flatten($element));
+            }
+        }
+        else {
+            $output[] = $input;
+        }
+        return $output;
     }
 
     protected function shiftTagAndRenderChildrenToContents(string $tag) : string
@@ -73,6 +102,10 @@ class Html
                 case '#':
                     $parts[1] = ltrim($part, '#');
                     break;
+                case '[':
+                    $attribute = explode('=', trim($part, '[]'), 2);
+                    $parts[3][$attribute[0]] = $attribute[1];
+                    break;
                 default:
                     $parts[0] = $part;
                     break;
@@ -80,7 +113,7 @@ class Html
 
             return $parts;
 
-        }, ['div', '', []]);
+        }, ['div', '', [], []]);
     }
 
     protected function render() : string
