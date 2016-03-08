@@ -2,20 +2,20 @@
 
 namespace Spatie\HtmlElement\Test;
 
-use Spatie\HtmlElement\TagParser;
+use Spatie\HtmlElement\AbbreviationParser;
 
-class TagParserTest extends \PHPUnit_Framework_TestCase
+class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->parser = new TagParser();
+        $this->parser = new AbbreviationParser();
     }
 
     /** @test */
     function it_can_parse_a_plain_element()
     {
         $this->assertEquals(
-            [['element' => 'div', 'id' => null, 'classes' => [], 'attributes' => []]],
+            ['element' => 'div', 'id' => null, 'classes' => [], 'attributes' => []],
             $this->parser->parse('div')
         );
     }
@@ -24,7 +24,7 @@ class TagParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_an_id()
     {
         $this->assertEquals(
-            [['element' => 'div', 'id' => 'main', 'classes' => [], 'attributes' => []]],
+            ['element' => 'div', 'id' => 'main', 'classes' => [], 'attributes' => []],
             $this->parser->parse('div#main')
         );
     }
@@ -33,7 +33,7 @@ class TagParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_a_class()
     {
         $this->assertEquals(
-            [['element' => 'div', 'id' => null, 'classes' => ['container'], 'attributes' => []]],
+            ['element' => 'div', 'id' => null, 'classes' => ['container'], 'attributes' => []],
             $this->parser->parse('div.container')
         );
     }
@@ -42,7 +42,7 @@ class TagParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_multiple_classes()
     {
         $this->assertEquals(
-            [['element' => 'div', 'id' => null, 'classes' => ['container', 'fluid'], 'attributes' => []]],
+            ['element' => 'div', 'id' => null, 'classes' => ['container', 'fluid'], 'attributes' => []],
             $this->parser->parse('div.container.fluid')
         );
     }
@@ -51,7 +51,7 @@ class TagParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_an_id_and_a_class()
     {
         $this->assertEquals(
-            [['element' => 'div', 'id' => 'main', 'classes' => ['container'], 'attributes' => []]],
+            ['element' => 'div', 'id' => 'main', 'classes' => ['container'], 'attributes' => []],
             $this->parser->parse('div#main.container')
         );
     }
@@ -60,22 +60,26 @@ class TagParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_attributes()
     {
         $this->assertEquals(
-            [['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']]],
+            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']],
             $this->parser->parse('a[href=#]')
         );
     }
 
     /** @test */
-    function it_can_parse_attributes_with_quotes()
+    function it_can_parse_attributes_with_single_quotes()
     {
         $this->assertEquals(
-            [['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']]],
-            $this->parser->parse('a[href="#"]')
-        );
-
-        $this->assertEquals(
-            [['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']]],
+            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']],
             $this->parser->parse("a[href='#']")
+        );
+    }
+
+    /** @test */
+    function it_can_parse_attributes_with_double_quotes()
+    {
+        $this->assertEquals(
+            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']],
+            $this->parser->parse('a[href="#"]')
         );
     }
 
@@ -83,7 +87,7 @@ class TagParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_attributes_and_classes()
     {
         $this->assertEquals(
-            [['element' => 'a', 'id' => null, 'classes' => ['foo', 'bar'], 'attributes' => ['href' => '#']]],
+            ['element' => 'a', 'id' => null, 'classes' => ['foo', 'bar'], 'attributes' => ['href' => '#']],
             $this->parser->parse('a.foo[href="#"].bar')
         );
     }
@@ -92,7 +96,7 @@ class TagParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_multiple_attributes()
     {
         $this->assertEquals(
-            [['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#', 'title' => 'Link']]],
+            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#', 'title' => 'Link']],
             $this->parser->parse('a[href="#"][title="Link"]')
         );
     }

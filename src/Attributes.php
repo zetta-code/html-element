@@ -10,6 +10,11 @@ class Attributes
 
     public function __construct(array $attributes = [])
     {
+        $this->setAttributes($attributes);
+    }
+
+    public function setAttributes(array $attributes) : self
+    {
         foreach ($attributes as $attribute => $value) {
 
             if ($attribute === 'class') {
@@ -24,6 +29,8 @@ class Attributes
 
             $this->setAttribute($attribute, $value);
         }
+
+        return $this;
     }
 
     public function setAttribute(string $attribute, string $value = '') : self

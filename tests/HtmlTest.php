@@ -100,7 +100,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     function it_merges_classes_passed_in_through_the_tag_name_and_attributes()
     {
         $this->assertEquals(
-            '<div class="fluid container"></div>',
+            '<div class="container fluid"></div>',
             Html::el('div.container', ['class' => ['fluid']], '')
         );
     }

@@ -4,18 +4,11 @@ namespace Spatie\HtmlElement;
 
 use Spatie\HtmlElement\Helpers\Arr;
 
-class TagParser
+class AbbreviationParser
 {
     public function parse(string $tag) : array
     {
-        return Arr::map($this->splitTags($tag), function (string $tag) {
-            return $this->parseTag($tag);
-        });
-    }
-
-    protected function splitTags(string $tag) : array
-    {
-        return preg_split('/\s*>\s*/', $tag);
+        return $this->parseTag($tag);
     }
 
     protected function parseTag(string $tag) : array
