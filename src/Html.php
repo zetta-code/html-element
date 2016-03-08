@@ -15,36 +15,42 @@ class Html
 
     public static function el(...$arguments) : string
     {
-        $tag = $arguments[0];
-        $attributes = isset($arguments[2]) ? $arguments[1] : [];
-        $contents = $arguments[2] ?? $arguments[1] ?? [];
-
-        if (is_array($contents)) {
-            $contents = implode('', $contents);
-        }
-
-        return (new static($tag, $attributes, $contents))->render();
+        return (new static($arguments))->render();
     }
 
-    protected function __construct(string $tag, array $attributes = [], string $contents = '')
+    protected function __construct($arguments)
     {
-        $this->attributes = new Attributes();
-        $this->contents = $contents;
+        list($abbreviation, $attributes, $contents) = $this->parseArguments($arguments);
 
-        $tags = preg_split('/\s*>\s*/', $tag, 2);
+        $this->attributes = new Attributes();
+
+        $this->parseContents($contents);
+        $this->parseAbbreviation($abbreviation);
+        $this->parseAttributes($attributes);
+    }
+
+    protected function parseArguments($arguments)
+    {
+        $attributes = isset($arguments[2]) ? $arguments[1] : [];
+        $contents = $arguments[2] ?? $arguments[1] ?? '';
+
+        $tags = preg_split('/\s*>\s*/', $arguments[0], 2);
 
         if (isset($tags[1])) {
-            $this->contents = static::el($tags[1], [], $this->contents);
+            $contents = static::el($tags[1], [], $contents);
         }
 
-        $this->parseAndSetTag($tags[0]);
-
-        $this->attributes->setAttributes($attributes);
+        return [$tags[0], $attributes, $contents];
     }
 
-    protected function parseAndSetTag(string $tag)
+    protected function parseContents($contents)
     {
-        $parsed = (new AbbreviationParser())->parse($tag);
+        $this->contents = is_array($contents) ? implode('', $contents) : $contents;
+    }
+
+    protected function parseAbbreviation(string $abbreviation)
+    {
+        $parsed = (new AbbreviationParser())->parse($abbreviation);
 
         $this->element = $parsed['element'];
 
@@ -59,33 +65,13 @@ class Html
         }
     }
 
+    protected function parseAttributes(array $attributes)
+    {
+        $this->attributes->setAttributes($attributes);
+    }
+
     protected function render() : string
     {
-        if ($this->isSelfClosingElement()) {
-            return $this->renderOpeningTag();
-        }
-
-        return "{$this->renderOpeningTag()}{$this->contents}{$this->renderClosingTag()}";
-    }
-
-    protected function isSelfClosingElement() : bool
-    {
-        return in_array(strtolower($this->element), [
-            'area', 'base', 'br', 'col', 'embed', 'hr',
-            'img', 'input', 'keygen', 'link', 'menuitem',
-            'meta', 'param', 'source', 'track', 'wbr',
-        ]);
-    }
-
-    protected function renderOpeningTag() : string
-    {
-        return $this->attributes->isEmpty() ?
-            "<{$this->element}>" :
-            "<{$this->element} {$this->attributes}>";
-    }
-
-    protected function renderClosingTag() : string
-    {
-        return "</{$this->element}>";
+        return Tag::render($this->element, $this->attributes, $this->contents);
     }
 }
