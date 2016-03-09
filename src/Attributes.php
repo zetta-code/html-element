@@ -13,7 +13,12 @@ class Attributes
         $this->setAttributes($attributes);
     }
 
-    public function setAttributes(array $attributes) : self
+    /**
+     * @param array $attributes
+     *
+     * @return static
+     */
+    public function setAttributes(array $attributes)
     {
         foreach ($attributes as $attribute => $value) {
 
@@ -33,7 +38,13 @@ class Attributes
         return $this;
     }
 
-    public function setAttribute(string $attribute, string $value = '') : self
+    /**
+     * @param string $attribute
+     * @param string $value
+     *
+     * @return static
+     */
+    public function setAttribute(string $attribute, string $value = '')
     {
         if ($attribute === 'class') {
             $this->addClass($value);
@@ -45,7 +56,12 @@ class Attributes
         return $this;
     }
 
-    public function addClass($class) : self
+    /**
+     * @param string|array $class
+     *
+     * @return static
+     */
+    public function addClass($class)
     {
         if (! is_array($class)) {
             $class = [$class];
