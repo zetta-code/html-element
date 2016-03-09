@@ -5,7 +5,6 @@ namespace Spatie\HtmlElement;
 class Attributes
 {
     protected $attributes = [];
-
     protected $classes = [];
 
     public function __construct(array $attributes = [])
