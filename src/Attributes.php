@@ -80,6 +80,10 @@ class Attributes
 
     public function toArray() : array
     {
+        if (empty($this->classes)) {
+            return $this->attributes;
+        }
+
         return array_merge($this->attributes, ['class' => implode(' ',$this->classes)]);
     }
 
