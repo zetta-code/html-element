@@ -100,4 +100,13 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
             $this->parser->parse('a[href="#"][title="Link"]')
         );
     }
+
+    /** @test */
+    function it_can_parse_attributes_containing_class_and_id_characters()
+    {
+        $this->assertEquals(
+            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => 'https://spatie.be/#top']],
+            $this->parser->parse('a[href=https://spatie.be/#top]')
+        );
+    }
 }
