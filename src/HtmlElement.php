@@ -30,9 +30,9 @@ class HtmlElement
      *
      * @return string
      */
-    public static function render(string $tag, $attributes = null, $content = null) : string
+    public static function render(string $tag, $attributes = null, $contents = null) : string
     {
-        return (new static(func_get_args()))->renderTag();
+        return (new static([$tag, $attributes, $contents]))->renderTag();
     }
 
     protected function __construct(array $arguments)
