@@ -32,10 +32,10 @@ class HtmlElement
      */
     public static function render(string $tag, $attributes = null, $contents = null) : string
     {
-        return (new static([$tag, $attributes, $contents]))->renderTag();
+        return (new static($tag, $attributes, $contents))->renderTag();
     }
 
-    protected function __construct(array $arguments)
+    protected function __construct(...$arguments)
     {
         list($abbreviation, $attributes, $contents) = $this->parseArguments($arguments);
 
