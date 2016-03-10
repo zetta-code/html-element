@@ -7,11 +7,9 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/html-element.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/html-element)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/html-element.svg?style=flat-square)](https://packagist.org/packages/spatie/html-element)
 
-> WORK IN PROGRESS
+HtmlElement is a library to make dynamic HTML rendering more managable. The syntax is based on [Hyperscript](https://github.com/dominictarr/hyperscript), and adds some [Emmet](http://emmet.io/)-style syntactic sugar too.
 
-HtmlElement is a small library to make dynamic HTML rendering more managable. The syntax is based on [Hyperscript](https://github.com/dominictarr/hyperscript), and adds some [Emmet](http://emmet.io/)-style syntactic sugar too.
-
-Elements are rendered using the static `Html::el` method (which I recommend wrapping in a plain function instead for readability).
+Elements are rendered using the static `HtmlElement::render` method (which I recommend wrapping in a plain function instead for readability).
 
 ```php
 el('div.container > div.row > div.col-md-6',
@@ -35,12 +33,11 @@ I recommend adding an `el` function to your application to improve readability o
 ```php
 function el(string $tag, $attributes = null, $content = null) : string
 {
-    return \Spatie\HtmlElement\Html::el(...func_get_args());
+    return \Spatie\HtmlElement\HtmlElement::render(...func_get_args());
 }
 ```
 
-
-## Syntax Examples
+## Examples
 
 An empty tag:
 
@@ -60,13 +57,13 @@ el('p', 'Hello world!');
 <p>Hello world!</p>
 ```
 
-A tag with an ID:
+A tag with an attribute:
 
 ```php
-el('p', ['id' => 'introduction'], 'Hello world!');
+el('p', ['style' => 'color: red;'], 'Hello world!');
 ```
 ```html
-<p id="introduction">Hello world!</p>
+<p style="color: red;">Hello world!</p>
 ```
 
 A tag with an ID set emmet-style:
@@ -78,13 +75,22 @@ el('p#introduction', 'Hello world!');
 <p id="introduction">Hello world!</p>
 ```
 
-A tag with an ID and a class:
+A tag with an emmet-style ID and class:
 
 ```php
 el('p#introduction.red', 'Hello world!');
 ```
 ```html
 <p id="introduction" class="red">Hello world!</p>
+```
+
+A tag with emmet-style attributes:
+
+```php
+el('a[href=#][title=Back to top]', 'Back to top');
+```
+```html
+<a href="#" title="Back to top">Back to top</a>
 ```
 
 A more complex emmet-style abbreviation:
@@ -128,6 +134,13 @@ el('ul', [el('li'), el('li')]);
 ```
 
 Self-closing tags:
+
+```php
+el('img[src=/background.jpg]');
+```
+```html
+<img src="background.jpg">
+```
 
 ```php
 el('img', ['src' => '/background.jpg'], '');
