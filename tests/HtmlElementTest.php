@@ -77,6 +77,15 @@ class HtmlElementTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    function it_parses_an_attribute_without_value_passed_in_through_the_tag_name()
+    {
+        $this->assertEquals(
+            '<input required>',
+            HtmlElement::render('input[required]')
+        );
+    }
+
+    /** @test */
     function it_only_parses_one_id_passed_in_through_the_tag_name()
     {
         $this->assertEquals(

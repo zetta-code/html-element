@@ -67,13 +67,9 @@ class HtmlElement
 
     protected function parseAbbreviation(string $abbreviation)
     {
-        $parsed = (new AbbreviationParser())->parse($abbreviation);
+        $parsed = AbbreviationParser::parse($abbreviation);
 
         $this->element = $parsed['element'];
-
-        if (!empty($parsed['id'])) {
-            $this->attributes->setAttribute('id', $parsed['id']);
-        }
 
         $this->attributes->addClass($parsed['classes']);
 

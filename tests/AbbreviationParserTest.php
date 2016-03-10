@@ -6,17 +6,12 @@ use Spatie\HtmlElement\AbbreviationParser;
 
 class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $this->parser = new AbbreviationParser();
-    }
-
     /** @test */
     function it_can_parse_a_plain_element()
     {
         $this->assertEquals(
-            ['element' => 'div', 'id' => null, 'classes' => [], 'attributes' => []],
-            $this->parser->parse('div')
+            ['element' => 'div', 'classes' => [], 'attributes' => []],
+            AbbreviationParser::parse('div')
         );
     }
 
@@ -24,8 +19,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_an_id()
     {
         $this->assertEquals(
-            ['element' => 'div', 'id' => 'main', 'classes' => [], 'attributes' => []],
-            $this->parser->parse('div#main')
+            ['element' => 'div', 'classes' => [], 'attributes' => ['id' => 'main']],
+            AbbreviationParser::parse('div#main')
         );
     }
 
@@ -33,8 +28,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_a_class()
     {
         $this->assertEquals(
-            ['element' => 'div', 'id' => null, 'classes' => ['container'], 'attributes' => []],
-            $this->parser->parse('div.container')
+            ['element' => 'div', 'classes' => ['container'], 'attributes' => []],
+            AbbreviationParser::parse('div.container')
         );
     }
 
@@ -42,8 +37,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_multiple_classes()
     {
         $this->assertEquals(
-            ['element' => 'div', 'id' => null, 'classes' => ['container', 'fluid'], 'attributes' => []],
-            $this->parser->parse('div.container.fluid')
+            ['element' => 'div', 'classes' => ['container', 'fluid'], 'attributes' => []],
+            AbbreviationParser::parse('div.container.fluid')
         );
     }
 
@@ -51,8 +46,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_an_element_with_an_id_and_a_class()
     {
         $this->assertEquals(
-            ['element' => 'div', 'id' => 'main', 'classes' => ['container'], 'attributes' => []],
-            $this->parser->parse('div#main.container')
+            ['element' => 'div', 'classes' => ['container'], 'attributes' => ['id' => 'main']],
+            AbbreviationParser::parse('div#main.container')
         );
     }
 
@@ -60,8 +55,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_attributes()
     {
         $this->assertEquals(
-            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']],
-            $this->parser->parse('a[href=#]')
+            ['element' => 'a', 'classes' => [], 'attributes' => ['href' => '#']],
+            AbbreviationParser::parse('a[href=#]')
         );
     }
 
@@ -69,8 +64,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_attributes_with_single_quotes()
     {
         $this->assertEquals(
-            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']],
-            $this->parser->parse("a[href='#']")
+            ['element' => 'a', 'classes' => [], 'attributes' => ['href' => '#']],
+            AbbreviationParser::parse("a[href='#']")
         );
     }
 
@@ -78,8 +73,17 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_attributes_with_double_quotes()
     {
         $this->assertEquals(
-            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#']],
-            $this->parser->parse('a[href="#"]')
+            ['element' => 'a', 'classes' => [], 'attributes' => ['href' => '#']],
+            AbbreviationParser::parse('a[href="#"]')
+        );
+    }
+
+    /** @test */
+    function it_can_parse_attributes_without_values()
+    {
+        $this->assertEquals(
+            ['element' => 'input', 'classes' => [], 'attributes' => ['required' => null]],
+            AbbreviationParser::parse('input[required]')
         );
     }
 
@@ -87,8 +91,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_attributes_and_classes()
     {
         $this->assertEquals(
-            ['element' => 'a', 'id' => null, 'classes' => ['foo', 'bar'], 'attributes' => ['href' => '#']],
-            $this->parser->parse('a.foo[href="#"].bar')
+            ['element' => 'a', 'classes' => ['foo', 'bar'], 'attributes' => ['href' => '#']],
+            AbbreviationParser::parse('a.foo[href="#"].bar')
         );
     }
 
@@ -96,8 +100,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_multiple_attributes()
     {
         $this->assertEquals(
-            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => '#', 'title' => 'Link']],
-            $this->parser->parse('a[href="#"][title="Link"]')
+            ['element' => 'a', 'classes' => [], 'attributes' => ['href' => '#', 'title' => 'Link']],
+            AbbreviationParser::parse('a[href="#"][title="Link"]')
         );
     }
 
@@ -105,8 +109,8 @@ class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
     function it_can_parse_attributes_containing_class_and_id_characters()
     {
         $this->assertEquals(
-            ['element' => 'a', 'id' => null, 'classes' => [], 'attributes' => ['href' => 'https://spatie.be/#top']],
-            $this->parser->parse('a[href=https://spatie.be/#top]')
+            ['element' => 'a', 'classes' => [], 'attributes' => ['href' => 'https://spatie.be/#top']],
+            AbbreviationParser::parse('a[href=https://spatie.be/#top]')
         );
     }
 }

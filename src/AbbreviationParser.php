@@ -6,34 +6,75 @@ use Spatie\HtmlElement\Helpers\Arr;
 
 class AbbreviationParser
 {
-    public function parse(string $tag) : array
+    /** @var string */
+    protected $element = 'div';
+
+    /** @var array */
+    protected $classes = [];
+
+    /** @var array */
+    protected $attributes = [];
+
+    public static function parse(string $tag) : array
     {
-        return $this->parseTag($tag);
+        $parsed = (new static($tag));
+
+        return [
+            'element' => $parsed->element,
+            'classes' => $parsed->classes,
+            'attributes' => $parsed->attributes,
+        ];
     }
 
-    protected function parseTag(string $tag) : array
+    protected function __construct(string $tag)
     {
-        return array_reduce($this->explodeTag($tag), function ($parts, $part) {
+        $this->parseTag($tag);
+    }
+
+    protected function parseTag(string $tag)
+    {
+        foreach ($this->explodeTag($tag) as $part) {
 
             switch ($part[0]) {
                 case '.':
-                    $parts['classes'][] = ltrim($part, '.');
+                    $this->parseClass($part);
                     break;
                 case '#':
-                    $parts['id'] = ltrim($part, '#');
+                    $this->parseId($part);
                     break;
                 case '[':
-                    $attribute = explode('=', trim($part, '[]'), 2);
-                    $parts['attributes'][$attribute[0]] = trim($attribute[1], '\'"');
+                    $this->parseAttribute($part);
                     break;
                 default:
-                    $parts['element'] = $part;
+                    $this->parseElement($part);
                     break;
             }
+        }
+    }
 
-            return $parts;
+    protected function parseClass(string $class)
+    {
+        $this->classes[] = ltrim($class, '.');
+    }
 
-        }, ['element' => null, 'id' => null, 'classes' => [], 'attributes' => []]);
+    protected function parseId(string $id)
+    {
+        $this->attributes['id'] = ltrim($id, '#');
+    }
+
+    protected function parseAttribute(string $attribute)
+    {
+        $keyValueSet = explode('=', trim($attribute, '[]'), 2);
+
+        $key = $keyValueSet[0];
+        $value = $keyValueSet[1] ?? null;
+        
+        $this->attributes[$key] = trim($value, '\'"');
+    }
+
+    protected function parseElement(string $element)
+    {
+        $this->element = $element;
     }
 
     protected function explodeTag(string $tag) : array
