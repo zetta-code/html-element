@@ -97,11 +97,9 @@ class Attributes
             return '';
         }
 
-        $attributes = $this->toArray();
-
         $attributeStrings = [];
 
-        foreach ($attributes as $attribute => $value) {
+        foreach ($this->toArray() as $attribute => $value) {
             if (empty($value)) {
                 $attributeStrings[] = $attribute;
                 continue;
