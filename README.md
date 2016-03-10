@@ -168,7 +168,7 @@ el('p');
 
 #### `el(string $tag, string|array $contents) : string`
 
-When two arguments are passed, these generally are a tag and it's contents.
+When two arguments are passed, they represent a tag and it's contents.
 
 String example:
 

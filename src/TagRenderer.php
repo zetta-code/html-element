@@ -2,7 +2,7 @@
 
 namespace Spatie\HtmlElement;
 
-class Tag
+class TagRenderer
 {
     /** @var string */
     protected $element;

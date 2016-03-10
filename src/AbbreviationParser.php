@@ -46,6 +46,7 @@ class AbbreviationParser
 
             if (strpos($part, '[') === 0) {
                 list($attributeValue, $rest) = explode(']', $part, 2);
+
                 return [$attributeValue] + $this->explodeTag($rest);
             }
 

@@ -14,7 +14,7 @@ class HtmlElement
     protected $contents;
 
     /**
-     * Examples:
+     * Examples:.
      * 
      * el('p');                                 <p></p>
      * el('p', 'Hello!')                        <p>Hello!</p>
@@ -23,11 +23,11 @@ class HtmlElement
      *
      * @link https://github.com/spatie/html-element#examples
      * 
-     * @param string $tag  The html element tag.
-     * @param array|string $attributes  When only two arguments are passed, the second parameter
-     *                                  represents the content instead of the attribute.
-     * @param array|string $contents  Content can be passed in as a string or an array which will 
-     *                                get concatenated as siblings.
+     * @param string       $tag        The html element tag.
+     * @param array|string $attributes When only two arguments are passed, the second parameter
+     *                                 represents the content instead of the attribute.
+     * @param array|string $contents   Contents can be passed in as a string or an array which
+     *                                 will be concatenated as siblings.
      * 
      * @return string
      */
@@ -36,7 +36,7 @@ class HtmlElement
         return (new static(func_get_args()))->renderTag();
     }
 
-    protected function __construct($arguments)
+    protected function __construct(array $arguments)
     {
         list($abbreviation, $attributes, $contents) = $this->parseArguments($arguments);
 
@@ -52,7 +52,7 @@ class HtmlElement
         $attributes = isset($arguments[2]) ? $arguments[1] : [];
         $contents = $arguments[2] ?? $arguments[1] ?? '';
 
-        $tags = preg_split('/\s*>\s*/', $arguments[0], 2);
+        $tags = preg_split('/ \s* > \s* /x', $arguments[0], 2);
 
         if (isset($tags[1])) {
             $contents = static::render($tags[1], [], $contents);
@@ -90,6 +90,6 @@ class HtmlElement
 
     protected function renderTag() : string
     {
-        return Tag::render($this->element, $this->attributes, $this->contents);
+        return TagRenderer::render($this->element, $this->attributes, $this->contents);
     }
 }

@@ -4,7 +4,10 @@ namespace Spatie\HtmlElement;
 
 class Attributes
 {
+    /** @var array */
     protected $attributes = [];
+
+    /** @var array */
     protected $classes = [];
 
     public function __construct(array $attributes = [])
@@ -15,7 +18,7 @@ class Attributes
     /**
      * @param array $attributes
      *
-     * @return static
+     * @return $this
      */
     public function setAttributes(array $attributes)
     {
@@ -41,12 +44,13 @@ class Attributes
      * @param string $attribute
      * @param string $value
      *
-     * @return static
+     * @return $this
      */
     public function setAttribute(string $attribute, string $value = '')
     {
         if ($attribute === 'class') {
             $this->addClass($value);
+
             return $this;
         }
 
@@ -58,11 +62,11 @@ class Attributes
     /**
      * @param string|array $class
      *
-     * @return static
+     * @return $this
      */
     public function addClass($class)
     {
-        if (! is_array($class)) {
+        if (!is_array($class)) {
             $class = [$class];
         }
 
@@ -84,7 +88,7 @@ class Attributes
             return $this->attributes;
         }
 
-        return array_merge($this->attributes, ['class' => implode(' ',$this->classes)]);
+        return array_merge($this->attributes, ['class' => implode(' ', $this->classes)]);
     }
 
     public function toString() : string
@@ -102,7 +106,6 @@ class Attributes
         $attributeStrings = [];
 
         foreach ($attributes as $attribute => $value) {
-
             if (empty($value)) {
                 $attributeStrings[] = $attribute;
                 continue;
