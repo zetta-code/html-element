@@ -97,11 +97,7 @@ class Attributes
             return '';
         }
 
-        $attributes = $this->attributes;
-
-        if (!empty($this->classes)) {
-            $attributes['class'] = implode(' ', $this->classes);
-        }
+        $attributes = $this->toArray();
 
         $attributeStrings = [];
 
