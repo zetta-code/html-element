@@ -14,21 +14,20 @@ class HtmlElement
     protected $contents;
 
     /**
-     * Examples:.
-     * 
+     * @link https://github.com/spatie/html-element#examples
+     *
      * el('p');                                 <p></p>
      * el('p', 'Hello!')                        <p>Hello!</p>
      * el('p#intro', 'Hello!')                  <p id="intro">Hello!</p>
      * el('p', ['id' => 'intro'], 'Hello!')     <p id="intro">Hello!</p>
      *
-     * @link https://github.com/spatie/html-element#examples
-     * 
+     *
      * @param string       $tag        The html element tag.
      * @param array|string $attributes When only two arguments are passed, the second parameter
      *                                 represents the content instead of the attribute.
      * @param array|string $contents   Contents can be passed in as a string or an array which
      *                                 will be concatenated as siblings.
-     * 
+     *
      * @return string
      */
     public static function render(string $tag, $attributes = null, $content = null) : string
