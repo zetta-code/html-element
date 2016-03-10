@@ -13,9 +13,27 @@ class HtmlElement
     /** @var string */
     protected $contents;
 
-    public static function render(...$arguments) : string
+    /**
+     * Examples:
+     * 
+     * el('p');                                 <p></p>
+     * el('p', 'Hello!')                        <p>Hello!</p>
+     * el('p#intro', 'Hello!')                  <p id="intro">Hello!</p>
+     * el('p', ['id' => 'intro'], 'Hello!')     <p id="intro">Hello!</p>
+     *
+     * @link https://github.com/spatie/html-element#examples
+     * 
+     * @param string $tag  The html element tag.
+     * @param array|string $attributes  When only two arguments are passed, the second parameter
+     *                                  represents the content instead of the attribute.
+     * @param array|string $contents  Content can be passed in as a string or an array which will 
+     *                                get concatenated as siblings.
+     * 
+     * @return string
+     */
+    public static function render(string $tag, $attributes = null, $content = null) : string
     {
-        return (new static($arguments))->renderTag();
+        return (new static(func_get_args()))->renderTag();
     }
 
     protected function __construct($arguments)
