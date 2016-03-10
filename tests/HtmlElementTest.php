@@ -2,26 +2,33 @@
 
 namespace Spatie\HtmlElement\Test;
 
-use Spatie\HtmlElement\Html;
+use Spatie\HtmlElement\HtmlElement;
 
-class HtmlTest extends \PHPUnit_Framework_TestCase
+class HtmlElementTest extends \PHPUnit_Framework_TestCase
 {
     /** @test */
     function it_parses_a_tag()
     {
-        $this->assertEquals('<div></div>', Html::el('div'));
+        $this->assertEquals(
+            '<div></div>',
+            HtmlElement::render('div')
+        );
     }
 
     /** @test */
     function it_parses_a_tag_with_text_contents()
     {
-        $this->assertEquals('<div>Hello world</div>', Html::el('div', 'Hello world'));
+        $this->assertEquals(
+            '<div>Hello world</div>',
+            HtmlElement::render('div', 'Hello world'));
     }
 
     /** @test */
     function it_parses_a_tag_with_empty_arguments_and_text_contents()
     {
-        $this->assertEquals('<div>Hello world</div>', Html::el('div', [], 'Hello world'));
+        $this->assertEquals(
+            '<div>Hello world</div>',
+            HtmlElement::render('div', [], 'Hello world'));
     }
 
     /** @test */
@@ -29,7 +36,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div class="intro">Hello world</div>',
-            Html::el('div', ['class' => 'intro'], 'Hello world')
+            HtmlElement::render('div', ['class' => 'intro'], 'Hello world')
         );
     }
 
@@ -38,7 +45,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div contenteditable>Hello world</div>',
-            Html::el('div', ['contenteditable'], 'Hello world')
+            HtmlElement::render('div', ['contenteditable'], 'Hello world')
         );
     }
 
@@ -47,7 +54,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<ul><li>Cookies</li><li>Cream</li></ul>',
-            Html::el('ul', ['<li>Cookies</li>', '<li>Cream</li>'])
+            HtmlElement::render('ul', ['<li>Cookies</li>', '<li>Cream</li>'])
         );
     }
 
@@ -56,7 +63,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div id="container"></div>',
-            Html::el('div#container')
+            HtmlElement::render('div#container')
         );
     }
 
@@ -65,7 +72,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<a href="#">Hello world</a>',
-            Html::el('a[href=#]', 'Hello world')
+            HtmlElement::render('a[href=#]', 'Hello world')
         );
     }
 
@@ -74,7 +81,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div id="container"></div>',
-            Html::el('div#main#container')
+            HtmlElement::render('div#main#container')
         );
     }
 
@@ -83,7 +90,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div class="container"></div>',
-            Html::el('div.container')
+            HtmlElement::render('div.container')
         );
     }
 
@@ -92,7 +99,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div class="container fluid"></div>',
-            Html::el('div.container.fluid')
+            HtmlElement::render('div.container.fluid')
         );
     }
 
@@ -101,20 +108,26 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div class="container fluid"></div>',
-            Html::el('div.container', ['class' => ['fluid']], '')
+            HtmlElement::render('div.container', ['class' => ['fluid']], '')
         );
     }
 
     /** @test */
     function it_renders_self_closing_tags_when_relevant()
     {
-        $this->assertEquals('<img src="/background.jpg">', Html::el('img', ['src' => '/background.jpg'], []));
+        $this->assertEquals(
+            '<img src="/background.jpg">',
+            HtmlElement::render('img', ['src' => '/background.jpg'], [])
+        );
     }
 
     /** @test */
     function it_recognizes_uppercase_self_closing_tags()
     {
-        $this->assertEquals('<IMG src="/background.jpg">', Html::el('IMG', ['src' => '/background.jpg'], []));
+        $this->assertEquals(
+            '<IMG src="/background.jpg">',
+            HtmlElement::render('IMG', ['src' => '/background.jpg'], [])
+        );
     }
 
     /** @test */
@@ -122,7 +135,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div class="container"><div class="row"></div></div>',
-            Html::el('div.container>div.row')
+            HtmlElement::render('div.container>div.row')
         );
     }
 
@@ -131,7 +144,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '<div class="container"><div class="row"></div></div>',
-            Html::el('div.container > div.row')
+            HtmlElement::render('div.container > div.row')
         );
     }
 }

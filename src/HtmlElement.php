@@ -2,7 +2,7 @@
 
 namespace Spatie\HtmlElement;
 
-class Html
+class HtmlElement
 {
     /** @var string */
     protected $element;
@@ -13,9 +13,9 @@ class Html
     /** @var string */
     protected $contents;
 
-    public static function el(...$arguments) : string
+    public static function render(...$arguments) : string
     {
-        return (new static($arguments))->render();
+        return (new static($arguments))->renderTag();
     }
 
     protected function __construct($arguments)
@@ -37,7 +37,7 @@ class Html
         $tags = preg_split('/\s*>\s*/', $arguments[0], 2);
 
         if (isset($tags[1])) {
-            $contents = static::el($tags[1], [], $contents);
+            $contents = static::render($tags[1], [], $contents);
         }
 
         return [$tags[0], $attributes, $contents];
@@ -70,7 +70,7 @@ class Html
         $this->attributes->setAttributes($attributes);
     }
 
-    protected function render() : string
+    protected function renderTag() : string
     {
         return Tag::render($this->element, $this->attributes, $this->contents);
     }
