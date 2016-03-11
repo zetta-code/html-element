@@ -9,7 +9,7 @@
 
 HtmlElement is a library to make dynamic HTML rendering more managable. The syntax is based on [Hyperscript](https://github.com/dominictarr/hyperscript), and adds some [Emmet](http://emmet.io/)-style syntactic sugar too.
 
-Elements are rendered using the static `HtmlElement::render` method (which I recommend wrapping in a plain function instead for readability).
+Elements are rendered using the static `HtmlElement::render` method (which I recommend wrapping in a plain function for readability).
 
 ```php
 el('div.container > div.row > div.col-md-6',
