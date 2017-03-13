@@ -50,6 +50,15 @@ class HtmlElementTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    function it_parses_a_tag_with_an_argument_containing_zero()
+    {
+        $this->assertEquals(
+            '<option value="0">Choose one...</option>',
+            HtmlElement::render('option', ['value' => 0], 'Choose one...')
+        );
+    }
+
+    /** @test */
     function it_parses_an_array_of_content_items()
     {
         $this->assertEquals(

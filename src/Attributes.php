@@ -100,7 +100,7 @@ class Attributes
         $attributeStrings = [];
 
         foreach ($this->toArray() as $attribute => $value) {
-            if (empty($value)) {
+            if (is_null($value) || $value === '') {
                 $attributeStrings[] = $attribute;
                 continue;
             }
