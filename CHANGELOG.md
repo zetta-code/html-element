@@ -1,20 +1,9 @@
 # Changelog
 
-All Notable changes to `:package_name` will be documented in this file
+All Notable changes to `spatie/html-element` will be documented in this file
 
-## NEXT - YYYY-MM-DD
+## 1.0.1 - 2017-03-13
+- Fixed: Allow `0` as an attribute value
 
-### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+## 1.0.0 - 2016-03-11
+- First release
