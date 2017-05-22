@@ -124,7 +124,7 @@ el('div', ['class' => 'container'],
 );
 ```
 ```html
-<div>
+<div class="container">
   <nav aria-role="navigation">...</nav>
 </div>
 ```
