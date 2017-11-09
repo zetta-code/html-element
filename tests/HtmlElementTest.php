@@ -2,9 +2,10 @@
 
 namespace Spatie\HtmlElement\Test;
 
+use PHPUnit\Framework\TestCase;
 use Spatie\HtmlElement\HtmlElement;
 
-class HtmlElementTest extends \PHPUnit_Framework_TestCase
+class HtmlElementTest extends TestCase
 {
     /** @test */
     function it_parses_a_tag()

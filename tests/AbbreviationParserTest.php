@@ -2,9 +2,10 @@
 
 namespace Spatie\HtmlElement\Test;
 
+use PHPUnit\Framework\TestCase;
 use Spatie\HtmlElement\AbbreviationParser;
 
-class AbbreviationParserTest extends \PHPUnit_Framework_TestCase
+class AbbreviationParserTest extends TestCase
 {
     /** @test */
     function it_can_parse_a_plain_element()
