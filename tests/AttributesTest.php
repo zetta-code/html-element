@@ -51,6 +51,17 @@ class AttributesTest extends TestCase
     }
 
     /** @test */
+    public function it_accepts_class_attribute()
+    {
+        $attributes = new Attributes();
+
+        $this->assertArraySubset(
+            ['class' => 'container'],
+            $attributes->setAttribute('class', 'container')->toArray()
+        );
+    }
+
+    /** @test */
     public function it_accepts_attributes_without_values()
     {
         $attributes = new Attributes();
