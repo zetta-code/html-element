@@ -35,7 +35,7 @@ class AbbreviationParser
     {
         foreach ($this->explodeTag($tag) as $part) {
 
-            switch ($part[0]) {
+            switch ($part[0] ?? '') {
                 case '.':
                     $this->parseClass($part);
                     break;
