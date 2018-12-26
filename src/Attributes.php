@@ -104,6 +104,7 @@ class Attributes
                 $attributeStrings[] = $attribute;
                 continue;
             }
+            $value = htmlspecialchars($value, ENT_COMPAT);
 
             $attributeStrings[] = "{$attribute}=\"{$value}\"";
         }
