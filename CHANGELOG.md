@@ -2,6 +2,9 @@
 
 All Notable changes to `spatie/html-element` will be documented in this file
 
+## 1.1.1 - 2018-12-26
+- Fixed: Escape attribute values
+
 ## 1.1.0 - 2018-11-21
 - Added: Implicit `div` tags like Emmet (e.g. `.foo` -> `<div class="foo">`)
 
