@@ -82,4 +82,16 @@ class AttributesTest extends TestCase
             $attributes->setAttributes(['name' => 'email', 'required'])->toArray()
         );
     }
+
+    protected function assertArraySubset(array $expectedSubset, array $actualArray)
+    {
+        foreach ($expectedSubset as $key => $value) {
+            $this->assertArrayHasKey($key, $actualArray);
+            if ($value !== null) {
+                $this->assertSame($value, $actualArray[$key]);
+            } else {
+                $this->assertSame('', $actualArray[$key]);
+            }
+        }
+    }
 }
